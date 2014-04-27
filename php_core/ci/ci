@@ -1,0 +1,15 @@
+#!/usr/bin/perl
+use Modern::Perl;
+use File::Basename qw/dirname/;
+use File::Copy;
+
+my $site_tpl = dirname(__FILE__) . '/site_tpl'; 
+
+given ($ARGV[0]) {
+    when ('create') {
+        my $site_name = $ARGV[1] // 'my_codeignitor_site';
+        `cp -R $site_tpl $site_name`;
+    }
+}
+
+
