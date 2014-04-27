@@ -18,8 +18,7 @@ class Api extends MY_Controller
     }
 
     public function index() {
-        echo "111111";exit;     
-    
+        echo @$_GET['echostr']; 
     }
 
     private function checkSignature()
