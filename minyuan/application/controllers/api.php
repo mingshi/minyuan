@@ -19,9 +19,8 @@ class Api extends MY_Controller
 
     public function index() {
         echo @$_GET['echostr'];
-        $b = array_merge($_GET, $_POST);
-        $a = json_encode($b); 
-        file_put_contents('/tmp/wxJ', $a, FILE_APPEND);
+        $file_in = file_get_contents("php://input");
+        file_put_contents('/tmp/wxJ', $file_in, FILE_APPEND);
         exit;
     }
 
