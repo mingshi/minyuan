@@ -54,14 +54,20 @@ class Api extends MY_Controller
         }
     } 
 
-    private function pushCommonMeg($userid, $content)
+    private function pushCommonMeg($toUser, $fromUser, $content)
     {
         //先获得token
         $token = $this->getWeixinAccessToken();
 
         $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $token;
 
-        $data = '{"touser" : "' . $userid . '", "msgtype" : "text", "text" : { "content" : "' . $content . '"}}';
+        $data = '<xml>
+            <ToUserName><![CDATA['. $toUser .']]></ToUserName>
+            <FromUserName><![CDATA['. $fromUser .']]></FromUserName>
+            <CreateTime>'. time() .'</CreateTime>
+            <MsgType><![CDATA[text]]></MsgType>
+            <Content><![CDATA[' . $content . ']]></Content>
+            </xml>';
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_POST, 1);
