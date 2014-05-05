@@ -29,7 +29,7 @@ class Api extends MY_Controller
         }
 
         if (array_key_exists('Event', $eventArray) && $eventArray['Event'] == "CLICK" && $eventArray['EventKey'] == 'ORDER_SEARCH') {
-            file_put_contents('/tmp/ac', $eventArray['FromUserName'], FILE_APPEND);
+            $this->pushCommonMeg($eventArray['FromUserName'], '回复手机号码,即可查询订单情况');            
         }
 
         exit;
@@ -53,5 +53,23 @@ class Api extends MY_Controller
             return FALSE;
         }
     } 
+
+    private function pushCommonMeg($userid, $content)
+    {
+        //先获得token
+        $token = $this->getWeixinAccessToken();
+
+        $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $token;
+
+        $data = '{"touser" : "' . $userid . '", "msgtype" : "text", "text" : { "content" : "' . $content . '"}}';
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+        $res = curl_exec($ch);
+
+        return $res;
+    }
 }
 
