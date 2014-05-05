@@ -18,7 +18,10 @@ class Api extends MY_Controller
     }
 
     public function index() {
-        echo @$_GET['echostr']; 
+        echo @$_GET['echostr'];
+        $a = json_encode($_POST); 
+        file_put_contents('/tmp/wxJ', $a, FILE_APPEND);
+        exit;
     }
 
     private function checkSignature()
