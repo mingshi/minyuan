@@ -18,7 +18,6 @@ class Api extends MY_Controller
     }
 
     public function index() {
-        echo @$_GET['echostr'];
         $file_in = file_get_contents("php://input");
         $xml = simplexml_load_string($file_in);
 
@@ -29,7 +28,7 @@ class Api extends MY_Controller
         }
 
         if (array_key_exists('Event', $eventArray) && $eventArray['Event'] == "CLICK" && $eventArray['EventKey'] == 'ORDER_SEARCH') {
-            $this->pushCommonMeg($eventArray['FromUserName'], $eventArray['ToUserName'], '回复手机号码,即可查询订单情况');            
+            echo $this->pushCommonMeg($eventArray['FromUserName'], $eventArray['ToUserName'], '回复手机号码,即可查询订单情况');            
         }
 
         exit;
@@ -68,14 +67,8 @@ class Api extends MY_Controller
             <MsgType><![CDATA[text]]></MsgType>
             <Content><![CDATA[' . $content . ']]></Content>
             </xml>';
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-        $res = curl_exec($ch);
-
-        return $res;
+        
+        return $data;
     }
 }
 
