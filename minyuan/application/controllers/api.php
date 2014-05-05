@@ -20,7 +20,11 @@ class Api extends MY_Controller
     public function index() {
         echo @$_GET['echostr'];
         $file_in = file_get_contents("php://input");
-        file_put_contents('/tmp/wxJ', $file_in, FILE_APPEND);
+        $xml = simplexml_load_string($file_in);
+
+        foreach ($xml->children() as $child) {
+            file_put_contents('/tmp/wxC', $child->getName() . ":" . $child . "\n", FILE_APPEND);
+        }
         exit;
     }
 
