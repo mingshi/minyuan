@@ -29,7 +29,7 @@ class Api extends MY_Controller
         }
 
         if (array_key_exists('Event', $eventArray) && $eventArray['Event'] == "CLICK" && $eventArray['EventKey'] == 'ORDER_SEARCH') {
-            $this->pushCommonMeg($eventArray['FromUserName'], '回复手机号码,即可查询订单情况');            
+            $this->pushCommonMeg($eventArray['FromUserName'], $eventArray['ToUserName'], '回复手机号码,即可查询订单情况');            
         }
 
         exit;
