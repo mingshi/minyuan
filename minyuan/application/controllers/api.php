@@ -22,9 +22,16 @@ class Api extends MY_Controller
         $file_in = file_get_contents("php://input");
         $xml = simplexml_load_string($file_in);
 
+        $eventArray = array();
+
         foreach ($xml->children() as $child) {
-            file_put_contents('/tmp/wxC', $child->getName() . ":" . $child . "\n", FILE_APPEND);
+            $eventArray[$child->getName()] = $child;
         }
+
+        if (array_key_exists('Event', $eventArray) && $eventArray['Event'] == "CLICK" && $eventArray['EventKey'] == 'ORDER_SEARCH') {
+            file_put_contents('/tmp/ac', $eventArray['FromUserName'], FILE_APPEND);
+        }
+
         exit;
     }
 
