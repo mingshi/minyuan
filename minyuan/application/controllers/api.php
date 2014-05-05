@@ -31,6 +31,12 @@ class Api extends MY_Controller
             echo $this->pushCommonMeg($eventArray['FromUserName'], $eventArray['ToUserName'], '回复手机号码,即可查询订单情况');            
         }
 
+        if (array_key_exists('Content', $eventArray)) {
+            if(preg_match("/1[3458]{1}\d{9}$/",$eventArray['Content'])) {
+                echo $this->pushCommonMeg($eventArray['FromUserName'], $eventArray['ToUserName'], '正在查询,请稍后...');
+            }
+        }
+
         exit;
     }
 
