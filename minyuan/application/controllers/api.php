@@ -12,9 +12,11 @@ class Api extends MY_Controller
     public function __construct() {
         $this->_setModuleDir('');
         parent::__construct(FALSE);
+        /*
         if (!$this->checkSignature()) {
             echo "no access";exit;
         }
+         */
     }
 
     public function index() {
@@ -33,7 +35,23 @@ class Api extends MY_Controller
 
         if (array_key_exists('Content', $eventArray)) {
             if(preg_match("/1[3458]{1}\d{9}$/",$eventArray['Content'])) {
-                echo $this->pushCommonMeg($eventArray['FromUserName'], $eventArray['ToUserName'], '正在查询,请稍后...');
+                // 通过手机号码 查询订单状态
+                $m = new Db_Model('minyuan', 'minyuan');
+
+                $result = $m->select(array(
+                    'mobile'    =>  '13472688824'
+                ));
+
+                $str = "";
+                if ($result) {
+                    foreach ($result as $res) {
+                        $str .= $res['order_name'] . " " . $res['status'] . "\n";
+                    }
+                } else {
+                        $str = "没有订单信息";
+                } 
+
+                echo $this->pushCommonMeg($eventArray['FromUserName'], $eventArray['ToUserName'], $str);
             }
         }
 

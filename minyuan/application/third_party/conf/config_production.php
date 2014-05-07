@@ -19,7 +19,7 @@ Config::add(array(
                 'port' => 3306
             ),
             'db_user' => 'root',
-            'db_pwd' => ''
+            'db_pwd' => 'sl11011'
         )
     ),
     'db_singles' => array(
