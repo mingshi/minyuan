@@ -20,6 +20,7 @@ class Api extends MY_Controller
     }
 
     public function index() {
+        header("Content-Type: text/html;charset=utf-8"); 
         $file_in = file_get_contents("php://input");
         $xml = simplexml_load_string($file_in);
 
@@ -39,7 +40,7 @@ class Api extends MY_Controller
                 $m = new Db_Model('minyuan', 'minyuan');
 
                 $result = $m->select(array(
-                    'mobile'    =>  '13472688824'
+                    'mobile'    =>  trim($eventArray['Content'])
                 ));
 
                 $str = "";
