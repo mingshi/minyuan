@@ -34,6 +34,7 @@ class Api extends MY_Controller
         }
 
         if (array_key_exists('Content', $eventArray)) {
+            $str = "";
             if(preg_match("/1[3458]{1}\d{9}$/",$eventArray['Content'])) {
                 // 通过手机号码 查询订单状态
                 $m = new Db_Model('minyuan', 'minyuan');
@@ -42,7 +43,6 @@ class Api extends MY_Controller
                     'mobile'    =>  trim($eventArray['Content'])
                 ));
 
-                $str = "";
                 if ($result) {
                     foreach ($result as $res) {
                         $str .= $res['order_name'] . " " . $res['status'] . "\n";
@@ -50,9 +50,11 @@ class Api extends MY_Controller
                 } else {
                         $str = "没有订单信息";
                 } 
-
-                echo $this->pushCommonMeg($eventArray['FromUserName'], $eventArray['ToUserName'], $str);
+            } else {
+                $str = "手机号码格式不对";
             }
+
+            echo $this->pushCommonMeg($eventArray['FromUserName'], $eventArray['ToUserName'], $str);
         }
 
         exit;
