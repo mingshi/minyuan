@@ -20,7 +20,6 @@ class Api extends MY_Controller
     }
 
     public function index() {
-        header("Content-Type: text/html;charset=utf-8"); 
         $file_in = file_get_contents("php://input");
         $xml = simplexml_load_string($file_in);
 
