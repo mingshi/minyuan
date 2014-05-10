@@ -21,7 +21,7 @@ class Login extends MY_Controller
         if (!empty($this->data['myuid'])) {
             redirect('/');
         }
-
+        
     	# 进行登录验证
         if (check_form_hash('login')) {
             $this->_login();
@@ -37,7 +37,7 @@ class Login extends MY_Controller
             $this->_fail(validation_errors());
             return;
         }
-
+        
         $params = $this->_getPostParams(array(
             'username',
             'password',
@@ -55,7 +55,7 @@ class Login extends MY_Controller
 
         $uid = 0;
 
-        $userInfo = M('advertiser')->check($username, $password);
+        $userInfo = "";
 
         if (empty($userInfo)) {
 

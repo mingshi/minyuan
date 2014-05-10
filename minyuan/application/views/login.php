@@ -2,7 +2,7 @@
 .form-signin {
 max-width: 300px;
 padding: 19px 29px 29px;
-margin: 60px auto 20px;
+margin: 90px auto 20px;
 background-color: #fff;
 border: 1px solid #e5e5e5;
 -webkit-border-radius: 5px;

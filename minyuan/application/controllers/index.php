@@ -4,7 +4,7 @@ class Index extends MY_Controller
     public function __construct()
     {
         $this->_setModuleDir('');
-        parent::__construct(FALSE);
+        parent::__construct(TRUE);
     }
 
     public function index()
