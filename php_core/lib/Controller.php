@@ -287,7 +287,7 @@ abstract class Controller extends CI_Controller
             ));
             $redirectUri = d(@$GLOBALS['req_redirect_uri'], $_SERVER['HTTP_REFERER']);
         }
-
+        
         $this->_processRedirectUri($redirectUri);
         
         if ($this->isAjax) {

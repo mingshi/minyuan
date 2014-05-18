@@ -27,7 +27,7 @@
         msg = 
         '<button type="button" class="close">&times;</button>' + 
         msg.replace(/<(?:div|p)[^>]*>/gi, '').replace(/<\/(?:div|p)>/gi, '<br/>').replace(/<br\/>\s*$/, '');
-
+        
         $popup_msg.html(msg).show();
         $popup_msg.attr('class', 'alert alert-' + type);
         var left = ($(window).width() - ($popup_msg.attr('offsetWidth') || $popup_msg.prop('offsetWidth'))) / 2;

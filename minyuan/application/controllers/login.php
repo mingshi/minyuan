@@ -21,7 +21,7 @@ class Login extends MY_Controller
         if (!empty($this->data['myuid'])) {
             redirect('/');
         }
-        
+
     	# 进行登录验证
         if (check_form_hash('login')) {
             $this->_login();
@@ -55,7 +55,12 @@ class Login extends MY_Controller
 
         $uid = 0;
 
-        $userInfo = "";
+        $m = new Db_Model('user', 'minyuan');
+
+        $userInfo = $m->selectOne(array(
+            'username'  =>  $username,
+            'passwd'    =>  md5(md5($password)),
+        ));
 
         if (empty($userInfo)) {
 
@@ -65,10 +70,9 @@ class Login extends MY_Controller
         $this->_onLogin($userInfo);
 
         $uid = $userInfo['id'];
-
+        
         $session = Session::getInstance();
         $session->setUserID($uid, FALSE, $expire);
-
         param_request(array(
             'redirect_uri' => $GLOBALS['PARAM_STRING']
         ));

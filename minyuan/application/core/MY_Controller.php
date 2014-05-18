@@ -3,10 +3,10 @@ class MY_Controller extends BackendController
 {
     public function __construct($checkLogin = TRUE)
     {
-        parent::__construct($checkLogin, M('advertiser'));
+        parent::__construct($checkLogin, new Db_Model('user', 'minyuan'));
 
         $this->load->library('session', NULL, 'ci_session');
-
+        
         $this->data['c_menu'] = $this->router->class;
         $this->data['c_submenu'] = $this->router->class . '.' . $this->router->method;
 

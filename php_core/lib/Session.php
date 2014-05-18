@@ -56,7 +56,7 @@ class Session
             // Note: setting $Expire to 0 will cause the cookie to die when the browser closes.
             $expire = 0;
         }
-        
+
         $cookieName = $this->cookieName;
         $domain = $this->domain;
         $keyData = $userID.'-'.$expiration;
@@ -98,7 +98,7 @@ class Session
                 if ($expire - $time < 86400 && time() - $time > 300) {
                     $this->setUserID($userID, FALSE, $expire - $time, $this->extraData);  
                 }
-
+                
                 return $userID;
             }
         }
@@ -149,7 +149,7 @@ class Session
             self::deleteCookie($cookieName, $this->domain);
             return FALSE;
         }
-        
+
         $key = self::hashMAC($hashMethod, $hashKey, $cookieSalt);
         $generatedHash = self::hashMAC($hashMethod, $hashKey, $key);
         

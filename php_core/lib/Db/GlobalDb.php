@@ -22,7 +22,7 @@ class Db_GlobalDb extends Db_Base
     public static function & getInstance($clusterId, $singleton = TRUE)
     {
         $dbGlobals = Config::get('db_singles');
-        
+
         if (empty($dbGlobals[$clusterId])) {
             return FALSE;
         }

@@ -44,13 +44,11 @@ body{
 	float: left;
 	height: 33px;
 	margin-right: 2px;
-	width: 86px;
 }
 .nav li.selected a{
 	background: #5d9526;
 }
 .nav a{
-	background: #444;
 	display: block;
 	text-align: center;
 	line-height: 33px;
