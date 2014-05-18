@@ -27,11 +27,12 @@
                     <div class="nav-collapse">
                         <ul class="nav">
                             <?php if (@$me['id']) :?>
-                                <li class="active"><a href="/create">添加订单状态</a></li>
+                            <li <?php if ($menu == 'index') :?>class="active"<?php endif; ?>><a href="/create">添加订单状态</a></li>
                             <?php endif;?>
 
                             <?php if (@$me['id'] && @$me['is_admin']) :?>
-                                <li><a href="/export">导出Excel</a></li>
+                                <li <?php if ($menu == 'export') :?>class="active"<?php endif; ?>><a href="/export">导出Excel</a></li>
+                                <li <?php if ($menu == 'import') :?>class="active"<?php endif; ?>><a href="/import">导入数据库</a></li>
                             <?php endif;?>
                         </ul>
                     </div>

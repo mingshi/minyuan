@@ -33,6 +33,7 @@ class Index extends MY_Controller
 
     public function index()
     {
+        $this->data['menu'] = 'index';
         $this->_view('index');
     }
 
@@ -46,6 +47,8 @@ class Index extends MY_Controller
         ), '', $params, array());
 
         $uniq = md5($params['_POST']['mobile'] . 'MiYuANGlASs' . $params['_POST']['order_name']);
+
+        $this->data['menu'] = 'index';
 
         $m = new Db_Model('minyuan', 'minyuan');
         $tmpOrder = $m->select(array(

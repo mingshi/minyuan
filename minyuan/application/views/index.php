@@ -1,5 +1,5 @@
 <div class="well" style="width: 70%; margin: 80px auto 0;">
-    <form class="form-horizontal ajax" method="post" action="/index/create">
+    <form class="form-horizontal ajax" method="post" action="/index/create" enctype="multipart/form-data">
         <fieldset>
             <legend>添加订单状态</legend>
 
