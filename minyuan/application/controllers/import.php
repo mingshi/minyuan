@@ -51,23 +51,27 @@ class Import extends MY_Controller
                     while (! feof($fp)) {
                         $tmpData = fgetcsv($fp);
                         $uniq = md5($tmpData[0] . 'MiYuANGlASs' . $tmpData[1]);
+                        $order_no = $tmpData[0];
                         $tmpOrder = $m->select(array(
-                            'uniq'  =>  $uniq
+                            'order_no'  =>  $order_no
                         ));
                         
-                        if ($tmpData[0] != '手机')  {
+                        if ($tmpData[0] != '编号')  {
                             if (!empty($tmpOrder)) {
                                 $upData = array();
-                                $upData['status']  = $tmpData[2];
-                                $ret = $m->update(array('uniq' => $uniq), $upData);
+                                $upData['status']  = $tmpData[3];
+                                $ret = $m->update(array('order_no' => $order_no), $upData);
                             } else {
                                 $data = array();
-                                if (preg_match("/1[3458]{1}\d{9}$/",$tmpData[0])) {
-                                    $data['mobile'] = $tmpData[0];
-                                    $data['order_name'] = $tmpData[1];
-                                    $data['status'] = $tmpData[2];
+                                if (preg_match("/1[3458]{1}\d{9}$/",$tmpData[1])) {
+                                    $data['order_no'] = $tmpData[0];
+                                    $data['mobile'] = $tmpData[1];
+                                    $data['order_name'] = $tmpData[2];
+                                    $data['status'] = $tmpData[3];
+                                    $data['number'] = $tmpData[4];
+                                    $data['order_date'] = $tmpData[5];
                                     $data['uniq'] = $uniq;
-                                    $data['uid'] = $tmpData[3];
+                                    $data['uid'] = $tmpData[6];
 
                                     $ret = $m->insert($data);
                                 }

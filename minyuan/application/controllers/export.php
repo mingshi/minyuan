@@ -30,12 +30,12 @@ class Export extends MY_Controller
 
         $fp = fopen('php://output', 'a'); 
         
-        $head = array('手机', '订单名', '状态', '用户');
+        $head = array('编号', '手机', '订单名', '状态', '数量', '日期', '用户');
         
         fputcsv($fp, $head);
 
         foreach ($orders as $row) {
-            $tmp = array($row['mobile'], $row['order_name'], $row['status'], $row['uid']);
+            $tmp = array($row['order_no'], $row['mobile'], $row['order_name'], $row['status'], $row['number'], $row['order_date'], $row['uid']);
             fputcsv($fp, $tmp);
         }
 

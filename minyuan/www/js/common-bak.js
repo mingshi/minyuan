@@ -27,7 +27,7 @@
         msg = 
         '<button type="button" class="close">&times;</button>' + 
         msg.replace(/<(?:div|p)[^>]*>/gi, '').replace(/<\/(?:div|p)>/gi, '<br/>').replace(/<br\/>\s*$/, '');
-
+        
         $popup_msg.html(msg).show();
         $popup_msg.attr('class', 'alert alert-' + type);
         var left = ($(window).width() - ($popup_msg.attr('offsetWidth') || $popup_msg.prop('offsetWidth'))) / 2;
@@ -62,21 +62,29 @@
             this.value = num;
         }
 
+        $(this).tooltip('show');
+    }).delegate('input.numeric:not(.notip)', 'focus', function(){
+        var $t = $(this);
+
+        if ($t.data('num_tip')) {
+            return;
+        }
+
+        $t.data('num_tip', 1);
+
+        $t.tooltip({
+            title : function() {
+                return fnum(this.value || 0);
+            },
+            animation : false
+        }).tooltip('show');
     });
     
     $(document).delegate('form.ajax', 'submit', function(event){
         event.preventDefault();
-
-        var base_version;
-        if (/version=(\w+)/.test(location.search)) {
-            if (!confirm('你当前提交不是基于最新版本的数据，是否继续？')) {
-                return;
-            }
-
-            base_version = RegExp.$1;
-        }
-
-        popup_msg('数据保存中...', 'info');
+        
+        var loading = $(this).attr('ajax-msg') || '数据保存中...';
+        popup_msg(loading, 'info');
         var $f = $(this);
         
         $f.trigger('before_submit');
@@ -84,17 +92,7 @@
         $disabled.prop('disabled', false);
         var post_params = $f.serialize();
         $disabled.prop('disabled', true);
-
-        if (!base_version) {
-            base_version = 
-                (($('#version-list a[href*="version="]:eq(1)').attr('href') || '')
-                .match(/version=(\w+)/) || [] )[1];
-
-            if (base_version) {
-                post_params += '&base_version=' + base_version;
-            }
-        }
-
+        
         $.post($f.attr('action') || location.href, post_params, function(ret){
             if (ret.code != 0) {
                 popup_msg(ret ? ret.msg : '发生异常错误', 'error');
@@ -104,10 +102,6 @@
 
                 if (ret.msg) {
                     popup_msg(ret.msg, 'succ');
-
-                    if (/version=\w+/.test(location.search) && !ret.redirect_uri) {
-                        return location.replace(location.href.replace(/version=\w+(&)?/, '').replace(/[&?]$/, ''));
-                    }
                 }
             }
 
@@ -122,7 +116,7 @@
             }
             
             if (ret && ret.code == 0) {
-                //location.reload();
+                location.reload();
             }
 
         }, 'json').error(function(){
@@ -139,7 +133,6 @@
         $t.data('datepicker', 1);
         $t.datepicker({
             onSelect: function(){
-                $(this).trigger("change");
             }
         });
     }).delegate('input.datetimepicker', 'focus', function(){
@@ -201,37 +194,6 @@
     bind_toggle_trigger();
     $(window).bind('ajax_load_page', function(){
         bind_toggle_trigger();
-    });
-
-    $(function(){
-        $(document).popover({
-            selector : 'a[href*="material/edit?id"]',
-            trigger : 'hover',
-            title : '物料预览',
-            html : true,
-            delay : { show : 800, hide : 200 },
-            content : function(){
-                var id = $(this).attr('href').match(/id=(\d+)/)[1];
-
-                return [
-                    '<div style="width:200px;height:200px;text-align:center;line-height:200px;" class="muted">加载中...</div>',
-                    '<iframe style="width:200px;height:200px;border:none;display:none" src="/material/preview?id=',
-                    id, '" onload="$(this).prev().hide().end().show()" scrolling="no"></iframe>'
-                ].join('');
-            }
-        });
-    });
-
-    $(document).delegate('table a.more', 'click', function(event){
-        event.preventDefault();
-        
-        var $li = $(this).closest('li,tr');
-
-        if ($li.next().is(':visible')) {
-            $li.parent().find('li,tr').not($li).hide();
-        } else {
-            $li.parent().find('li,tr').not($li).show();
-        }
     });
 
     $(document).delegate('[toggle]', 'click', function(event){
@@ -319,3 +281,30 @@ function remove_list_item_val($input, item)
 
     $input.val(items.join(','));
 }
+
+//自动绑定日期控件
+$(document).delegate('input.datepicker', 'focus', function() {
+    var $t = $(this);
+    if ($t.data('datepicker')) {
+        return;
+    }
+    $t.data('datepicker', 1);
+    $t.datepicker({
+        onSelect: function(){
+            $(this).trigger("change");
+        }
+    });
+}).delegate('input.datetimepicker', 'focus', function(){
+    var $t = $(this);
+
+    if ($t.data('datetimepicker')) {
+        return;
+    }
+
+    $t.data('datetimepicker', 1);
+    $t.datetimepicker({
+        timeFormat : 'HH',
+        showMinute : false,
+        showTime : false
+    });
+});
