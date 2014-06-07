@@ -27,7 +27,7 @@
                     <div class="nav-collapse">
                         <ul class="nav">
                             <?php if (@$me['id']) :?>
-                            <li <?php if ($menu == 'index') :?>class="active"<?php endif; ?>><a href="/create">添加订单状态</a></li>
+                            <li <?php if ($menu == 'index') :?>class="active"<?php endif; ?>><a href="/">添加订单状态</a></li>
                             <?php endif;?>
 
                             <?php if (@$me['id'] && @$me['is_admin']) :?>
