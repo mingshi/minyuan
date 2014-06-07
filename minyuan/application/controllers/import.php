@@ -32,7 +32,7 @@ class Import extends MY_Controller
                 }
 
                 $tmp_name = $_FILES['file']['tmp_name'];
-                if ($_FILES['file']['type'] != 'text/csv') {
+		if ($_FILES['file']['type'] != 'text/csv' && $_FILES['file']['type'] != 'application/vnd.ms-excel') {
                     $this->_fail('只允许上传csv文件');
                     return FALSE;
                 }
@@ -48,6 +48,7 @@ class Import extends MY_Controller
                     $fp = fopen($location.$name, 'r');
 
                     $m = new Db_Model('minyuan', 'minyuan');
+		    $i = 0;
                     while (! feof($fp)) {
                         $tmpData = fgetcsv($fp);
                         $uniq = md5($tmpData[0] . 'MiYuANGlASs' . $tmpData[1]);
@@ -56,18 +57,18 @@ class Import extends MY_Controller
                             'order_no'  =>  $order_no
                         ));
                         
-                        if ($tmpData[0] != '编号')  {
-                            if (!empty($tmpOrder)) {
+                        if ($i > 0)  {
+			   if (!empty($tmpOrder)) {
                                 $upData = array();
-                                $upData['status']  = $tmpData[3];
-                                $ret = $m->update(array('order_no' => $order_no), $upData);
+                                $upData['status']  = iconv('GBK', 'UTF-8', $tmpData[3]);
+				$ret = $m->update(array('order_no' => $order_no), $upData);
                             } else {
                                 $data = array();
                                 if (preg_match("/1[3458]{1}\d{9}$/",$tmpData[1])) {
                                     $data['order_no'] = $tmpData[0];
                                     $data['mobile'] = $tmpData[1];
-                                    $data['order_name'] = $tmpData[2];
-                                    $data['status'] = $tmpData[3];
+                                    $data['order_name'] = iconv('GBK', 'UTF-8',$tmpData[2]);
+                                    $data['status'] = iconv('GBK', 'UTF-8', $tmpData[3]);
                                     $data['number'] = $tmpData[4];
                                     $data['order_date'] = $tmpData[5];
                                     $data['uniq'] = $uniq;
@@ -77,6 +78,7 @@ class Import extends MY_Controller
                                 }
                             }
                         }
+			$i++;
                     }
                     $this->_done(NULL, '上传成功');
                 } else {

@@ -1,5 +1,7 @@
 CREATE DATABASE minyuan;
 
+use minyuan;
+
 CREATE TABLE `minyuan` (
     id int NOT NULL auto_increment primary key,
     mobile char(11) NOT NULL DEFAULT '0' COMMENT '用户手机号',
