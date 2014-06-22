@@ -11,7 +11,7 @@
 <script type="text/javascript" src="/public/js/jquery-ui-1.9.1.custom.min.js"></script>
 
 <link type="text/css" rel="stylesheet" href="/css/main.css?v=1113" />
-<link rel="stylesheet" href="http://ep.fasteng.net/common/base.min.css">
+<link rel="stylesheet" type="text/css" href="base.min.css" />
 <link type="text/css" rel="stylesheet" href="/css/box.css?v=1118" />
 
 <link type="text/css" rel="stylesheet" href="/datetimepicker/jquery.datetimepicker.css" />
